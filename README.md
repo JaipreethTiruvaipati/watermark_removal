@@ -196,8 +196,16 @@ Uses the state-of-the-art **Resolution-robust Large Mask Inpainting (LaMa)** mod
 - **Pros:** Hallucinates missing background context intelligently, producing the most visually pleasing and natural results.
 - **Cons:** Slow (runs on CPU by default) and requires downloading large model weights.
 
-### 5. Pattern Matching & Division (Best Approach) (`src/pattern_removal.py`)
+### 5. Pattern Matching & Division (`src/pattern_removal.py`)
 Takes advantage of the fact that the watermark is statically positioned across the dataset. 
 - **Step 1:** Uses `src/extract_watermark.py` to compute the median of 60+ images, effectively filtering out the changing diagrams to isolate a pure, perfect watermark template.
 - **Step 2:** Uses `src/pattern_removal.py` to mathematically divide the watermarked images by the extracted template, perfectly neutralizing the watermark.
 - **Pros:** Flawless removal with zero distortion to the underlying diagrams, and very fast to execute.
+
+### 6. Morphological Background Division (Final Best Approach) (`cleaner_v3.py`)
+A fast and standalone pipeline that estimates the background of each image dynamically and divides it out.
+- **Step 1:** Dilates the image with a large kernel to "erase" dark ink, keeping only the background including watermarks and color casts.
+- **Step 2:** Divides the original image by the estimated background to perfectly normalize it to uniform white.
+- **Step 3:** Applies targeted HSV masking to handle specific saturated red watermarks that background division misses.
+- **Step 4:** Stretches ink tones and applies an unsharp mask to produce incredibly sharp, high-contrast, black-and-white physics diagrams.
+- **Pros:** Handles varying watermark opacities, color casts, and intensities perfectly without a static template. Extremely fast and produces the sharpest results for digital display.
