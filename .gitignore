@@ -11,7 +11,4 @@ build/
 # Ignore generated outputs
 jaipreeth_tiruvaipati/
 *.log
-samples/*cleaned*/
-samples/*clean*/
-samples/*output*/
-samples/extracted_watermark_template.png
+samples/cleaner_v3_output/
