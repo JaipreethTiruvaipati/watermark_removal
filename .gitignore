@@ -11,4 +11,3 @@ build/
 # Ignore generated outputs
 jaipreeth_tiruvaipati/
 *.log
-samples/cleaner_v3_output/
